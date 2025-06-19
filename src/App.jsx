@@ -4,6 +4,7 @@ import sun from "./assets/sun.png";
 import clouds from "./assets/clouds.png";
 import rain from "./assets/rain.png";
 import clear from "./assets/clear.png";
+import temp from "./assets/temp.png";
 
 function App() {
   const [city, setCity] = useState("Delhi");
@@ -40,34 +41,32 @@ function App() {
     }
   };
 
-  
   const getWeatherImage = () => {
-  if (!weatherData) return sun; // default image
+    if (!weatherData) return sun; // default image
 
-  const condition = weatherData.weather[0].main.toLowerCase();
+    const condition = weatherData.weather[0].main.toLowerCase();
 
-  switch (condition) {
-    case "clear":
-      return clear;
-    case "clouds":
-      return clouds;
-    case "rain":
-      return rain;
-    case "drizzle":
-      return rain;
-    case "thunderstorm":
-      return sun;
-    default:
-      return clear; 
-  }
-};
-
+    switch (condition) {
+      case "clear":
+        return clear;
+      case "clouds":
+        return clouds;
+      case "rain":
+        return rain;
+      case "drizzle":
+        return rain;
+      case "thunderstorm":
+        return sun;
+      default:
+        return clear;
+    }
+  };
 
   return (
     <>
       <div className="flex justify-center items-center h-screen bg-gradient-to-r from-cyan-500 to-blue-500">
         <div className="w-md rounded-lg p-5 shadow-2xl bg-amber-50">
-          <h1 className="text-2xl font-extrabold border-b mb-4 pb-4 text-center">
+          <h1 className="text-3xl font-extrabold border-b mb-4 pb-4 text-center">
             Weather App
           </h1>
           <div className="flex gap-2">
@@ -95,13 +94,22 @@ function App() {
                     style={{ width: 180 }}
                     className="mx-auto"
                   />
+                  <p className="font-semibold text-xl">{weatherData.weather[0].main}</p>
                 </div>
-                <h3 className="font-extrabold text-3xl">
-                  Temp: {weatherData.main.temp}                  
-                </h3>
-                <span>Feels Like: {weatherData.main.feels_like}</span>
-
-                <p>{weatherData.weather[0].main}</p>
+                <div>
+                  <div className="flex justify-center items-center gap-3 mb-4">
+                    <img src={temp} style={{ width: 46 }} />
+                    <h3 className="font-extrabold text-2xl ">
+                      Temp: {weatherData.main.temp}{" "}
+                      <span className="text-sm">°C</span>
+                    </h3>
+                  </div>
+                </div>
+                <div className="flex items-center justify-center gap-4 font-semibold">
+                  <span>Humidity: {weatherData.main.humidity}%</span>
+                  <span>Feels Like: {weatherData.main.feels_like}</span>
+                  <span>Wind: {weatherData.wind.speed}</span>
+                </div>
               </>
             ) : (
               <p>Loading weather data...</p>
